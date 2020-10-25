@@ -25,6 +25,18 @@ namespace App.Web.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // Add service and create Cors Policy with options. 
+            // For the purpose of this application the Cors policy will be to allow any origin.
+            // However for actual the Test/UAT/Production applications this will be different
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy",
+                    builder => builder.AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    );
+            });
+
             services.AddControllers();
         }
 
@@ -39,6 +51,8 @@ namespace App.Web.Api
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseCors("CorsPolicy");
 
             app.UseAuthorization();
 
