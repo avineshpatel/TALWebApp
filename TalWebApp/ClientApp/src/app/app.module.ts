@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
+import { CurrencyPipe } from '@angular/common';
 
 import { MatDatepickerModule, MatNativeDateModule, MatInputModule } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -35,7 +36,7 @@ import { MonthlyPremiumCalculatorComponent } from './monthly-premium-calculator/
       { path: 'monthly-premium-calculator', component: MonthlyPremiumCalculatorComponent },
     ])
   ],
-  providers: [],
+  providers: [{ provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher }, CurrencyPipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

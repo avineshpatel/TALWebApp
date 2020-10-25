@@ -52,7 +52,7 @@
         <div class="form-group">
           <label>Occupation</label>
 
-          <select formControlName="occupation" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.occupation.errors }">
+          <select formControlName="occupation" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.occupation.errors }" (change)="changeOccupation($event.target.value)">
             <option value="0">--Select Occupation--</option>
             <option *ngFor="let occ of occupations" value={{occ.rating}}>
               {{occ.name}}

@@ -6,6 +6,7 @@ import { Occupation } from '../occupation';
 import { GetPremiumRequest } from '../getpremiumrequest';
 
 import * as moment from 'moment';
+import { CurrencyPipe } from '@angular/common';
 
 @Component({
             selector: 'monthly-premium-calculator',
@@ -17,9 +18,11 @@ export class MonthlyPremiumCalculatorComponent implements OnInit {
   currentDate: moment.Moment;  
   premiumCalculatorForm: FormGroup;
   occupations: Occupation[];
+  submitted = false;
 
   constructor(private formBuilder: FormBuilder,
-              private apiService: ApiService) { }
+    private apiService: ApiService,
+    private currencyPipe: CurrencyPipe) { }
 
   ngOnInit() {
 
@@ -46,7 +49,8 @@ export class MonthlyPremiumCalculatorComponent implements OnInit {
   // convenience getter for easy access to form fields
   get f() { return this.premiumCalculatorForm.controls; }
 
-  onReset() {    
+  onReset() {
+    this.submitted = false;
     this.premiumCalculatorForm.reset();
   }
 
@@ -75,7 +79,37 @@ export class MonthlyPremiumCalculatorComponent implements OnInit {
 
   dobDateFilter = (m: moment.Moment | null): boolean => {
     return (m || moment()) <= this.currentDate;
-  } 
+  }
+
+  changeOccupation(occupationRating: any) {
+
+    this.submitted = true;
+ 
+    // Don't calculate premium if form is invalid
+    if (this.premiumCalculatorForm.invalid) {
+      this.premiumCalculatorForm.patchValue({ premiumCalculated: "" });
+      return;
+    }
+
+    if (occupationRating != "0") {
+
+      var request = new GetPremiumRequest();
+
+      request.age = Number(this.premiumCalculatorForm.value.age);
+      request.occupationRating = occupationRating;
+      request.sumInsured = Number(this.premiumCalculatorForm.value.sumInsured);
+
+      this.apiService.getPremium(request)
+        .subscribe(result => {
+          console.log(result);
+          this.premiumCalculatorForm.patchValue({ premiumCalculated: this.getFormattedCurrency(result) });
+        });
+    }
+  }
+
+  getFormattedCurrency(currency : Number) {
+    return this.currencyPipe.transform(currency, 'AUD', 'symbol', '1.2-2');
+  }
 
 }
 
