@@ -1,9 +1,12 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, LOCALE_ID } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
-import { CurrencyPipe } from '@angular/common';
+import { CurrencyPipe, registerLocaleData } from '@angular/common';
+ 
+import localeAu from '@angular/common/locales/en-AU';
+registerLocaleData(localeAu, 'AU');
 
 import { MatDatepickerModule, MatNativeDateModule, MatInputModule } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -39,7 +42,9 @@ import { MonthlyPremiumCalculatorComponent } from './monthly-premium-calculator/
       { path: 'monthly-premium-calculator', component: MonthlyPremiumCalculatorComponent },
     ])
   ],
-  providers: [{ provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher }, CurrencyPipe],
+  providers: [{ provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher },
+              { provide: LOCALE_ID, useValue: 'en-AU' },
+              CurrencyPipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
