@@ -1,10 +1,75 @@
- 
+
 <div class="card m-3">
   <h5 class="card-header">Premium Calculator</h5>
   <div class="card-body">
-    <form>
-    
- hello
+    <form [formGroup]="premiumCalculatorForm">
+
+      <div class="col-md-6 mx-auto">
+
+        <div class="form-group">
+
+          <label>Name</label>
+          <input type="text" formControlName="name" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.name.errors }" />
+          <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
+            <div *ngIf="f.name.errors.required">Name is required</div>
+          </div>
+
+        </div>
+
+        <div>
+
+          <mat-form-field>
+            <input matInput [matDatepicker]="picker" formControlName="dob"  [matDatepickerFilter]="dobDateFilter"
+                   (dateChange)="dobChangeEvent($event)" readonly="readonly"
+                   placeholder="Date of Birth" [ngClass]="{ 'is-invalid': submitted && f.dob.errors }">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker disabled="false"></mat-datepicker>
+
+            <div *ngIf="submitted && f.dob.errors" class="invalid-feedback">
+              <div *ngIf="f.dob.errors.required">Date of Birth is required</div>
+            </div>
+
+          </mat-form-field>
+
+        </div>
+
+        <div class="form-group">
+          <label>Age</label>
+          <input type="text" formControlName="age" class="form-control" [readonly]="true" [ngClass]="{ 'is-invalid': submitted && f.age.errors }" />
+          <div *ngIf="submitted && f.age.errors" class="invalid-feedback">
+            <div *ngIf="f.age.errors.required">Age is required</div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Sum Insured</label>
+          <input formControlName="sumInsured" type="number" min="0" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.sumInsured.errors }" />
+          <div *ngIf="submitted && f.sumInsured.errors" class="invalid-feedback">
+            <div *ngIf="f.sumInsured.errors.required">Sum Insured is required</div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Occupation</label>
+
+          <select formControlName="occupation" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.occupation.errors }">
+            <option value="0">--Select Occupation--</option>
+            <option *ngFor="let occ of occupations" value={{occ.rating}}>
+              {{occ.name}}
+            </option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Premium</label>
+          <input type="text" [readonly]="true" formControlName="premiumCalculated" class="form-control" />
+        </div>
+
+        <div class="text-center">
+          <button class="btn btn-secondary" type="reset" (click)="onReset()">Reset</button>
+        </div>
+
+      </div>
     </form>
   </div>
 </div>
