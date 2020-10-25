@@ -9,6 +9,8 @@ import { MatDatepickerModule, MatNativeDateModule, MatInputModule } from '@angul
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MAT_DATE_FORMATS, ShowOnDirtyErrorStateMatcher, ErrorStateMatcher } from '@angular/material/core';
 
+import { NumberDirective } from './numbers-only.directive';
+
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
@@ -20,7 +22,8 @@ import { MonthlyPremiumCalculatorComponent } from './monthly-premium-calculator/
     AppComponent,
     NavMenuComponent,
     HomeComponent,
-    MonthlyPremiumCalculatorComponent
+    MonthlyPremiumCalculatorComponent,
+    NumberDirective
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -30,7 +33,7 @@ import { MonthlyPremiumCalculatorComponent } from './monthly-premium-calculator/
     MatNativeDateModule,
     MatInputModule,
     MatDatepickerModule,
-    BrowserAnimationsModule,
+    BrowserAnimationsModule,    
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'monthly-premium-calculator', component: MonthlyPremiumCalculatorComponent },

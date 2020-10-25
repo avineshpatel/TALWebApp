@@ -43,7 +43,7 @@
 
         <div class="form-group">
           <label>Sum Insured</label>
-          <input formControlName="sumInsured" type="number" min="0" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.sumInsured.errors }" />
+          <input formControlName="sumInsured" type="number" min="0" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.sumInsured.errors }" numbersOnly/>
           <div *ngIf="submitted && f.sumInsured.errors" class="invalid-feedback">
             <div *ngIf="f.sumInsured.errors.required">Sum Insured is required</div>
           </div>
