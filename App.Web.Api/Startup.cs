@@ -2,6 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using App.Repository;
+using App.Repository.Interfaces;
+using App.Service;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -38,6 +41,11 @@ namespace App.Web.Api
             });
 
             services.AddControllers();
+
+            // Add dependencies for custom application interfaces 
+            services.AddTransient<IDataRespository, DataRepository>();
+            services.AddTransient<IOccupationService, OccupationService>();
+            services.AddTransient<IPremiumService, PremiumService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
