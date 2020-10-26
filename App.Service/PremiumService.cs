@@ -12,7 +12,7 @@ namespace App.Service
             if (sumInsured <= 0) throw new ArgumentException("Sum insured has to be greater than 0");
             if (age < 0) throw new ArgumentException("Age has to be greater than equal to 0");
 
-            return (sumInsured * ratingFactor * age) / 1000 * 12;
+            return (sumInsured * ratingFactor * age) / (1000 * 12);
         }
 
        

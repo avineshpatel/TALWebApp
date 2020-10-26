@@ -58,7 +58,8 @@ export class MonthlyPremiumCalculatorComponent implements OnInit {
     this.apiService.getOccupations().subscribe
       (occupations => {
         this.occupations = occupations;        
-      });
+      },
+      err => console.log(err) );
   }
 
   dobChangeEvent(event) {
@@ -67,7 +68,7 @@ export class MonthlyPremiumCalculatorComponent implements OnInit {
 
     var date = event.value;
 
-    // Calculate age based
+    // Calculate age
     var age = this.calculateAge(date);
 
     this.premiumCalculatorForm.patchValue({ age: age });
@@ -103,12 +104,18 @@ export class MonthlyPremiumCalculatorComponent implements OnInit {
         .subscribe(result => {
           console.log(result);
           this.premiumCalculatorForm.patchValue({ premiumCalculated: this.getFormattedCurrency(result) });
-        });
+        },
+          err => {
+            console.log(err);
+            this.premiumCalculatorForm.patchValue({ premiumCalculated: "" });
+          }
+      );
     }
   }
 
-  getFormattedCurrency(currency : Number) {
-    return this.currencyPipe.transform(currency, 'AUD', 'symbol', '1.2-2');
+  getFormattedCurrency(currency: Number) {
+    // Remove the A at the start before the A$200.00
+    return this.currencyPipe.transform(currency, 'AUD', 'symbol', '1.2-2').substring(1);
   }
 
 }
